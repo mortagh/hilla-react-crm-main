@@ -25,6 +25,13 @@ public class Curve extends AbstractEntity {
     @NotEmpty
     private String position = "";
 
+    public AbstractEntity getChart() {
+        return null;
+    }
+
+    public void setChart(Chart orElseThrow) {
+    }
+
 
 
 

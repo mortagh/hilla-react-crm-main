@@ -3,10 +3,14 @@ import { RootState } from 'Frontend/app/store';
 import ChartForm from "./ChartForm";
 import Chart from "Frontend/generated/com/example/application/data/entity/Chart";
 import { useSelector } from 'react-redux';
-import { Button, ComboBox, Grid, GridColumn, Select, TextField, TextFieldElement, GridElement } from
+import { Button,  Grid, GridColumn,  TextField, TextFieldElement, GridElement } from
 'react-vaadin-components';
 import { getFilteredCharts, selectChart, updateFilter } from './chartsSlice';
 import { useEffect, useState } from 'react';
+import CurveForm from './CurveForm';
+import Curve from "Frontend/generated/com/example/application/data/entity/Curve";
+import { getFilteredCurves, selectCurve } from './curvesSlice';
+
 
 
 
@@ -26,6 +30,8 @@ export default function ChartView() {
 const dispatch = useAppDispatch();
 const charts = useSelector(getFilteredCharts);
 const selectedChart = useSelector((state: RootState) => state.charts.selected);
+const curves = useSelector(getFilteredCurves);
+const selectedCurve = useSelector((state: RootState) => state.curves.selected);
 const filter = useSelector((state: RootState) => state.charts.filterText);
 
 const filterChanged = (e: TextFieldElement.TextFieldValueChangedEvent) => dispatch(updateFilter(e.detail.value));
@@ -36,6 +42,7 @@ const handleGridSelection = (e: GridElement.GridActiveItemChangedEvent<Chart>) =
   }
 
   const addChart = () => dispatch(selectChart({} as Chart));
+  const addCurve = () => dispatch(selectCurve({} as Curve));
 
 
 
@@ -54,6 +61,24 @@ const handleGridSelection = (e: GridElement.GridActiveItemChangedEvent<Chart>) =
         </Grid>
         {selectedChart &&
         <ChartForm />}
+      </div>
+    </div>
+
+    <h2>Gestion des courbes</h2>
+    <div className="box-border flex flex-col p-m gap-s w-full h-full">
+      <div className="toolbar flex gap-s">
+        <TextField placeholder="Filter by name" clearButtonVisible value={filter} onValueChanged={filterChanged} />
+        <Button onClick={addCurve}>Ajouter une courbe</Button>
+      </div>
+      <div className="content flex gap-m h-full">
+        <Grid items={curves} onActiveItemChanged={handleGridSelection} selectedItems={[selectedCurve]}>
+          <GridColumn path='name' header="Nom de la courbe" />
+          <GridColumn path='position' header="Position" />
+          <GridColumn path='color' header="Color" />
+          <GridColumn path='chart.name' header="Graphique" />
+        </Grid>
+        {selectedCurve &&
+        <CurveForm />}
       </div>
     </div>
 

@@ -1,11 +1,8 @@
 package com.example.application.data.endpoint;
 
 
-import com.example.application.data.entity.Curve;
 import com.example.application.data.entity.Chart;
-import com.example.application.data.repository.CurveRepository;
 import com.example.application.data.repository.ChartRepository;
-import com.example.application.data.repository.StatusRepository;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import dev.hilla.Endpoint;
 
@@ -16,29 +13,21 @@ import java.util.UUID;
 @AnonymousAllowed
 public class TestEndPoint {
     private final ChartRepository chartRepository;
-    private final CurveRepository curveRepository;
 
-    public TestEndPoint(ChartRepository chartRepository, CurveRepository curveRepository) {
+    public TestEndPoint(ChartRepository chartRepository) {
         this.chartRepository = chartRepository;
-        this.curveRepository = curveRepository;
     }
 
     public List<Chart> getCharts() {
         return chartRepository.findAll();
     }
 
-    public List<Curve> getCurves() {
-        return curveRepository.findAll();
-    }
-
 
     public Chart saveChart(Chart chart) {
-        chart.setCurve(curveRepository.findById(chart.getCurve().getId())
-                .orElseThrow(() -> new RuntimeException(
-                        "Could not find Curve with id" + chart.getCurve().getId())));
 
 
-        return chart;
+
+        return chartRepository.save(chart);
     }
 
     public void deleteChart(UUID chartId) {

@@ -17,8 +17,7 @@ public class Chart extends AbstractEntity {
     @ManyToOne
     @JoinColumn(name = "curve_id")
     
-    private Curve curve;
-
+    
     public String getName() {
         return name;
     }
@@ -33,12 +32,6 @@ public class Chart extends AbstractEntity {
         this.position = position;
     }
 
-    public Curve getCurve() {
-        return curve;
-    }
-    public void setCurve(Curve curve) {
-        this.curve = curve;
-    }
     public AbstractEntity getChannel() {
         return null;
     }

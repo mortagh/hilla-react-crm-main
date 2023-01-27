@@ -1,11 +1,13 @@
 import {configureStore} from '@reduxjs/toolkit'
 import { chartsReducer } from 'Frontend/features/chart/chartsSlice';
+import { curvesReducer } from 'Frontend/features/chart/curvesSlice';
 import {contactsReducer} from "Frontend/features/contacts/contactsSlice";
 
 export const store = configureStore({
   reducer: {
     contacts: contactsReducer,
-    charts: chartsReducer
+    charts: chartsReducer,
+    curves: curvesReducer,
   },
 })
 

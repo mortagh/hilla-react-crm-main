@@ -2,11 +2,9 @@ import Chart from "Frontend/generated/com/example/application/data/entity/Chart"
 import {RootState} from "Frontend/app/store";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { TestEndPoint } from "Frontend/generated/endpoints";
-import Curve from "Frontend/generated/com/example/application/data/entity/Curve";
 
 export interface ChartsState {
   charts: Chart[],
-  curves: Curve[],
 
   selected?: Chart | null
   filterText: string
@@ -14,7 +12,6 @@ export interface ChartsState {
 
 const initialState: ChartsState = {
   charts: [],
-  curves: [],
   filterText: ''
 }
 
@@ -23,7 +20,6 @@ export const initFromServer = createAsyncThunk(
   async () => {
     return Promise.all([
       TestEndPoint.getCharts(),
-      TestEndPoint.getCurves(),
     ]);
   }
 )
@@ -55,9 +51,8 @@ export const chartsSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(initFromServer.fulfilled, (state, action) => {
-        const [charts, curves] = action.payload;
+        const [charts] = action.payload;
         state.charts = charts;
-        state.curves = curves;
       })
       .addCase(saveChart.fulfilled, (state, action) => {
         const saved = action.payload;
@@ -94,16 +89,8 @@ export const getFilteredCharts = (state: RootState) => {
   );
 }
 export const getNumberOfCharts = (state: RootState) => state.charts.charts.length;
-export const getChartsByCurve = (state: RootState) => {
-  const countByCurve = state.charts.charts.reduce((map, chart) => {
-    const name = chart.curve?.name || 'Unknown';
-    return map.set(name, (map.get(name) || 0) + 1);
-  }, new Map<string, number>());
 
-  return Array.from(countByCurve.entries()).map(([curve]) => ({
-    name: curve,
-  }));
-}
+  
 
 
 export const {updateFilter, selectChart} = chartsSlice.actions
