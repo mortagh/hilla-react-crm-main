@@ -6,10 +6,22 @@ import { useSelector } from 'react-redux';
 import { Button, ComboBox, Grid, GridColumn, Select, TextField, TextFieldElement, GridElement } from
 'react-vaadin-components';
 import { getFilteredCharts, selectChart, updateFilter } from './chartsSlice';
+import { useEffect, useState } from 'react';
 
 
 
 export default function ChartView() {
+
+
+  const [chart, setChart] = useState<Chart[]>([]);
+
+
+      useEffect(() => {
+      setChart([
+      { name: 'Graphique 1', position: 1 },
+      { name: 'Graphique 2', position: 2 },
+      ]);
+      }, []);
 
 const dispatch = useAppDispatch();
 const charts = useSelector(getFilteredCharts);
@@ -33,13 +45,12 @@ const handleGridSelection = (e: GridElement.GridActiveItemChangedEvent<Chart>) =
     <div className="box-border flex flex-col p-m gap-s w-full h-full">
       <div className="toolbar flex gap-s">
         <TextField placeholder="Filter by name" clearButtonVisible value={filter} onValueChanged={filterChanged} />
-        <Button onClick={addChart}>Add Chart</Button>
+        <Button onClick={addChart}>Ajouter un graphique</Button>
       </div>
       <div className="content flex gap-m h-full">
         <Grid items={charts} onActiveItemChanged={handleGridSelection} selectedItems={[selectedChart]}>
-          <GridColumn path='nameChart' header="Nom du graphique" />
+          <GridColumn path='name' header="Nom du graphique" />
           <GridColumn path='position' header="Position" />
-          <GridColumn path='button' header="Modifier" />
         </Grid>
         {selectedChart &&
         <ChartForm />}

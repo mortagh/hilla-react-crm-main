@@ -16,7 +16,7 @@ public class Chart extends AbstractEntity {
 
     @ManyToOne
     @JoinColumn(name = "curve_id")
-    @NotNull
+    
     private Curve curve;
 
     public String getName() {

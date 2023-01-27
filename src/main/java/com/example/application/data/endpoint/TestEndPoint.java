@@ -33,7 +33,6 @@ public class TestEndPoint {
 
 
     public Chart saveChart(Chart chart) {
-        System.out.println("_-_-_-test"+chart.getPosition());
         chart.setCurve(curveRepository.findById(chart.getCurve().getId())
                 .orElseThrow(() -> new RuntimeException(
                         "Could not find Curve with id" + chart.getCurve().getId())));
