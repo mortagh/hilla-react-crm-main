@@ -1,11 +1,7 @@
 package com.example.application.data.entity;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import javax.annotation.Nullable;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
@@ -14,10 +10,9 @@ public class Curve extends AbstractEntity {
 
     @NotBlank
     private String name;
-    
-    @OneToMany
-    @Nullable
-    private List<Chart> chart = new LinkedList<>();
+     
+    @ManyToOne
+    private Chart chart;
 
     @NotEmpty
     private String color = "";
@@ -25,11 +20,12 @@ public class Curve extends AbstractEntity {
     @NotEmpty
     private String position = "";
 
-    public AbstractEntity getChart() {
-        return null;
+    public Chart getChart() {
+        return chart;
     }
 
-    public void setChart(Chart orElseThrow) {
+    public void setChart(Chart chart) {
+    	this.chart = chart;
     }
 
 

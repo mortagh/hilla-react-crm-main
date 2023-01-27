@@ -1,8 +1,6 @@
 package com.example.application.data.entity;
 
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -14,10 +12,6 @@ public class Chart extends AbstractEntity {
     @NotNull
     private int position = 1;
 
-    @ManyToOne
-    @JoinColumn(name = "curve_id")
-    
-    
     public String getName() {
         return name;
     }
@@ -31,11 +25,7 @@ public class Chart extends AbstractEntity {
     public void setPosition(int position) {
         this.position = position;
     }
-
-    public AbstractEntity getChannel() {
-        return null;
-    }
-    public void setChannel(Channel orElseThrow) {
-    }
+    
+    
 
 }

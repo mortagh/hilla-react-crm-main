@@ -1,7 +1,7 @@
 import Curve from "Frontend/generated/com/example/application/data/entity/Curve";
 import {RootState} from "Frontend/app/store";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { CurveEndPoint } from "Frontend/generated/endpoints";
+import { TestCurveEndPoint } from "Frontend/generated/endpoints";
 import Chart from "Frontend/generated/com/example/application/data/entity/Chart";
 
 export interface CurvesState {
@@ -22,20 +22,23 @@ export const initFromServer = createAsyncThunk(
   'curves/initFromServer',
   async () => {
     return Promise.all([
-      CurveEndPoint.getCurves(),
+      TestCurveEndPoint.getCurves(),
     ]);
   }
 )
 
 export const saveCurve = createAsyncThunk(
   'curves/save',
-  async (curve: Curve) => CurveEndPoint.saveCurve(curve)
+  async (curve: Curve) => {
+	    console.log(" Chart id : " +curve.chart?.id);
+	  	return TestCurveEndPoint.saveCurve(curve);
+	  }
 )
 
 export const deleteCurve = createAsyncThunk(
   'curves/delete',
   async (curve: Curve) => {
-    await CurveEndPoint.deleteCurve(curve.id);
+    await TestCurveEndPoint.deleteCurve(curve.id);
     return curve.id;
   }
 )

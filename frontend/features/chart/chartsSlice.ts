@@ -89,7 +89,7 @@ export const getFilteredCharts = (state: RootState) => {
   );
 }
 export const getNumberOfCharts = (state: RootState) => state.charts.charts.length;
-
+export const getCharts = (state: RootState) => state.charts.charts;
   
 
 

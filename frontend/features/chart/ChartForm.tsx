@@ -6,6 +6,7 @@ import { RootState } from "Frontend/app/store";
 import { useAppDispatch } from "Frontend/app/hooks";
 import Chart from "Frontend/generated/com/example/application/data/entity/Chart";
 import { deleteChart, saveChart, selectChart } from "./chartsSlice";
+import {v4 as uuidv4} from 'uuid';
 
 
 export interface ChartFormModel {
@@ -25,7 +26,7 @@ export default function ChartForm() {
   });
 
   const formModelToChart = (formModel: ChartFormModel) => ({
-    id: formModel.id,
+    id: formModel.id?? uuidv4(),
     name: formModel.name,
     position: formModel.position
   });

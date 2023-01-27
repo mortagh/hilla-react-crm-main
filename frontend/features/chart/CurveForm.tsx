@@ -6,6 +6,7 @@ import {RootState} from "Frontend/app/store";
 import {useAppDispatch} from "Frontend/app/hooks";
 import Curve from "Frontend/generated/com/example/application/data/entity/Curve";
 import { deleteCurve, saveCurve, selectCurve } from "./curvesSlice";
+import { getCharts} from './chartsSlice';
 
 export interface CurveFormModel {
   id: string,
@@ -17,7 +18,7 @@ export interface CurveFormModel {
 }
 
 export default function CurveForm() {
-  const charts = useSelector((state: RootState) => state.curves.charts);
+  const charts = useSelector(getCharts);
   const selectedCurve = useSelector((state: RootState) => state.curves.selected);
   const dispatch = useAppDispatch();
 
@@ -26,7 +27,7 @@ export default function CurveForm() {
     name: curve.name,
     color: curve.color,
     position: curve.position,
-    chartId: curve.chart?.id,
+    chartId: curve.chart?.id
   });
 
   const formModelToCurve = (formModel: CurveFormModel) => ({
@@ -56,6 +57,7 @@ export default function CurveForm() {
     validationSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
+		console.log(formModelToCurve(values as CurveFormModel).chart?.id)
       dispatch(saveCurve(formModelToCurve(values as CurveFormModel)))
     }
   });

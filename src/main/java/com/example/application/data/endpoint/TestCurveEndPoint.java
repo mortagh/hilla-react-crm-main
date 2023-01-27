@@ -13,11 +13,11 @@ import java.util.UUID;
 
 @Endpoint
 @AnonymousAllowed
-public class testCurveEndPoint {
+public class TestCurveEndPoint {
     private final CurveRepository curveRepository;
     private final ChartRepository chartRepository;
 
-    public testCurveEndPoint(CurveRepository curveRepository, ChartRepository chartRepository) {
+    public TestCurveEndPoint(CurveRepository curveRepository, ChartRepository chartRepository) {
         this.curveRepository = curveRepository;
         this.chartRepository = chartRepository;
     }
@@ -32,6 +32,9 @@ public class testCurveEndPoint {
 
 
     public Curve saveCurve(Curve curve) {
+    	System.out.println(curve.getId());
+    	System.out.println(curve.getChart());
+    	System.out.println(curve.getChart().getId());
         curve.setChart(chartRepository.findById(curve.getChart().getId())
                 .orElseThrow(() -> new RuntimeException(
                         "Could not find Chart with id" + curve.getChart().getId())));

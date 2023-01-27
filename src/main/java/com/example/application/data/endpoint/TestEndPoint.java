@@ -24,8 +24,8 @@ public class TestEndPoint {
 
 
     public Chart saveChart(Chart chart) {
-
-
+    	System.out.println(chart.getId());
+    	System.out.println(chart.getPosition());
 
         return chartRepository.save(chart);
     }

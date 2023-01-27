@@ -20,6 +20,7 @@
     "@polymer/iron-resizable-behavior": "3.0.1",
     "@polymer/polymer": "3.5.1",
     "@reduxjs/toolkit": "^1.8.5",
+    "@types/uuid": "^9.0.0",
     "@vaadin/accordion": "23.2.0-beta2",
     "@vaadin/app-layout": "23.2.0-beta2",
     "@vaadin/avatar": "23.2.0-beta2",
@@ -138,6 +139,7 @@
     "react-router-dom": "^6.3.0",
     "react-vaadin-components": "^1.0.0-alpha.3",
     "recharts": "^2.1.13",
+    "uuid": "^9.0.0",
     "yup": "^0.32.11"
   },
   "devDependencies": {
@@ -296,7 +298,9 @@
     "recharts": "$recharts",
     "@reduxjs/toolkit": "$@reduxjs/toolkit",
     "react-redux": "$react-redux",
-    "yup": "$yup"
+    "yup": "$yup",
+    "uuid": "$uuid",
+    "@types/uuid": "$@types/uuid"
   },
   "vaadin": {
     "dependencies": {
@@ -440,6 +444,6 @@
       "workbox-core": "6.5.0",
       "workbox-precaching": "6.5.0"
     },
-    "hash": "e0871bdf2db67bfa6bce30cf293ae16ede3f55722c51cb0278c88f8e833567d6"
+    "hash": "270f19a216bf323b40e02890831baefb10150a6834347095741cd3d9b0ff4679"
   }
 }
