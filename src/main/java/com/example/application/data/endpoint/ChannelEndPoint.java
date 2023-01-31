@@ -1,28 +1,49 @@
 package com.example.application.data.endpoint;
 
-import java.util.List;
 
+import com.example.application.data.entity.Enregistrer;
 import com.example.application.data.entity.Channel;
+import com.example.application.data.repository.EnregistrerRepository;
 import com.example.application.data.repository.ChannelRepository;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
-
 import dev.hilla.Endpoint;
-import dev.hilla.Nonnull;
 
-@Endpoint 
-@AnonymousAllowed 
+import java.util.List;
+import java.util.UUID;
+
+@Endpoint
+@AnonymousAllowed
 public class ChannelEndPoint {
-    private ChannelRepository repository;
+    private final ChannelRepository channelRepository;
+    private final EnregistrerRepository enregistrerRepository;
 
-    public ChannelEndPoint(ChannelRepository repository) {
-        this.repository = repository;
+    public ChannelEndPoint(ChannelRepository channelRepository, EnregistrerRepository enregistrerRepository) {
+        this.channelRepository = channelRepository;
+        this.enregistrerRepository = enregistrerRepository;
     }
 
-    public @Nonnull List<Channel> findAll() {
-        return repository.findAll();
+    public List<Channel> getChannels() {
+        return channelRepository.findAll();
     }
-    
-    public Channel save(Channel chart) {
-        return repository.save(chart);
+
+    public List<Enregistrer> getEnregistrers() {
+        return enregistrerRepository.findAll();
+    }
+
+
+    public Channel saveChannel(Channel channel) {
+    	System.out.println(channel.getId());
+    	System.out.println(channel.getEnregistrer());
+    	System.out.println(channel.getEnregistrer().getId());
+        channel.setEnregistrer(enregistrerRepository.findById(channel.getEnregistrer().getId())
+                .orElseThrow(() -> new RuntimeException(
+                        "Could not find Enregistrer with id" + channel.getEnregistrer().getId())));
+
+
+        return channelRepository.save(channel);
+    }
+
+    public void deleteChannel(UUID channelId) {
+        channelRepository.deleteById(channelId);
     }
 }

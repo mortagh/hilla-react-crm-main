@@ -11,10 +11,10 @@ import java.util.UUID;
 
 @Endpoint
 @AnonymousAllowed
-public class TestEndPoint {
+public class ChartEndPoint {
     private final ChartRepository chartRepository;
 
-    public TestEndPoint(ChartRepository chartRepository) {
+    public ChartEndPoint(ChartRepository chartRepository) {
         this.chartRepository = chartRepository;
     }
 

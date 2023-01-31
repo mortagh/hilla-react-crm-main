@@ -3,29 +3,19 @@ import { RootState } from 'Frontend/app/store';
 import ChartForm from "./ChartForm";
 import Chart from "Frontend/generated/com/example/application/data/entity/Chart";
 import { useSelector } from 'react-redux';
-import { Button,  Grid, GridColumn,  TextField, TextFieldElement, GridElement } from
+import { Button,  Grid, GridColumn,  TextField, TextFieldElement, GridElement, ComboBox } from
 'react-vaadin-components';
+import * as yup from 'yup';
 import { getFilteredCharts, selectChart, updateFilter } from './chartsSlice';
-import { useEffect, useState } from 'react';
-import CurveForm from './CurveForm';
+import CurveForm, { CurveFormModel } from './CurveForm';
 import Curve from "Frontend/generated/com/example/application/data/entity/Curve";
-import { getFilteredCurves, selectCurve } from './curvesSlice';
+import { getFilteredCurves, saveCurve, selectCurve } from './curvesSlice';
+import { useFormik } from 'formik';
 
 
 
 
 export default function ChartView() {
-
-
-  const [chart, setChart] = useState<Chart[]>([]);
-
-
-      useEffect(() => {
-      setChart([
-      { name: 'Graphique 1', position: 1 },
-      { name: 'Graphique 2', position: 2 },
-      ]);
-      }, []);
 
 const dispatch = useAppDispatch();
 const charts = useSelector(getFilteredCharts);
@@ -36,6 +26,28 @@ const filter = useSelector((state: RootState) => state.charts.filterText);
 
 const filterChanged = (e: TextFieldElement.TextFieldValueChangedEvent) => dispatch(updateFilter(e.detail.value));
 
+const curveToFormModel = (chart: Chart) => ({
+  chartId: chart?.id
+});
+
+const validationSchema = yup.object({
+  chartId: yup.string().required('Select a chart')
+});
+const formModelToCurve = (formModel: CurveFormModel) => ({
+  chart: charts.find(c => c.id === formModel.chartId),
+});
+const formValues = selectedChart ? curveToFormModel(selectedChart) : {
+  chartId: '',
+};
+const formik = useFormik({
+  initialValues: formValues,
+  validationSchema,
+  enableReinitialize: true,
+  onSubmit: (values) => {
+  console.log(formModelToCurve(values as CurveFormModel).chart?.id)
+    dispatch(saveCurve(formModelToCurve(values as CurveFormModel)))
+  }
+});
 
 const handleGridSelection = (e: GridElement.GridActiveItemChangedEvent<Chart>) => {
   dispatch(selectChart(e.detail.value));
@@ -44,7 +56,7 @@ const handleGridSelection = (e: GridElement.GridActiveItemChangedEvent<Chart>) =
   const addChart = () => dispatch(selectChart({} as Chart));
   const addCurve = () => dispatch(selectCurve({} as Curve));
 
-
+  const chartId = formik.errors.chartId;
 
   return (
   <div className="flex flex-col h-full items-center justify-center p-l text-center">
@@ -66,6 +78,15 @@ const handleGridSelection = (e: GridElement.GridActiveItemChangedEvent<Chart>) =
 
     <h2>Gestion des courbes</h2>
     <div className="box-border flex flex-col p-m gap-s w-full h-full">
+    <ComboBox label="Graphique"
+                name="chartId"
+                items={charts}
+                itemLabelPath="name"
+                itemValuePath="id"
+                value={formik.values.chartId}
+                onChange={formik.handleChange}
+                invalid={Boolean(formik.errors.chartId)}
+                errorMessage={formik.errors.chartId ? formik.errors.chartId : ''}/>
       <div className="toolbar flex gap-s">
         <TextField placeholder="Filter by name" clearButtonVisible value={filter} onValueChanged={filterChanged} />
         <Button onClick={addCurve}>Ajouter une courbe</Button>
@@ -78,27 +99,9 @@ const handleGridSelection = (e: GridElement.GridActiveItemChangedEvent<Chart>) =
           <GridColumn path='chart.name' header="Graphique" />
         </Grid>
         {selectedCurve &&
-        <CurveForm />}
+        <CurveForm chartId={chartId} />}
       </div>
     </div>
-
-    {/* <h2>Gestion des courbes</h2>
-    <Select label='Choisir le graphique' items={criteria} value={criteria && criteria[0]?.value} />
-    <div className="box-border flex flex-col p-m gap-s w-full h-full">
-      <div className="toolbar flex gap-s">
-        <TextField placeholder="Filter by name" clearButtonVisible value={filter} onValueChanged={filterChanged} />
-        <Button onClick={addChart}>Add Chart</Button>
-      </div>
-      <Grid items={curve} className='h-full'>
-        <GridColumn path='nameCurve' header="Nom de la courbe" />
-        <GridColumn path='nameChannel' header="Nom du channel" />
-        <GridColumn path='color' header="Couleur" />
-        <GridColumn path='position' header="Position" />
-        <GridColumn path='button' header="Modifier" />
-      </Grid>
-      {selectedChart &&
-      <ChartForm />}
-    </div> */}
   </div>
   );
   }

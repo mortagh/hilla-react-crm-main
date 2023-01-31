@@ -1,28 +1,36 @@
 package com.example.application.data.endpoint;
 
-import java.util.List;
 
 import com.example.application.data.entity.Enregistrer;
 import com.example.application.data.repository.EnregistrerRepository;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
-
 import dev.hilla.Endpoint;
-import dev.hilla.Nonnull;
 
-@Endpoint 
-@AnonymousAllowed 
+import java.util.List;
+import java.util.UUID;
+
+@Endpoint
+@AnonymousAllowed
 public class EnregistrerEndPoint {
-    private EnregistrerRepository repository;
+    private final EnregistrerRepository enregistrerRepository;
 
-    public EnregistrerEndPoint(EnregistrerRepository repository) {
-        this.repository = repository;
+    public EnregistrerEndPoint(EnregistrerRepository enregistrerRepository) {
+        this.enregistrerRepository = enregistrerRepository;
     }
 
-    public @Nonnull List<Enregistrer> findAll() {
-        return repository.findAll();
+    public List<Enregistrer> getEnregistrers() {
+        return enregistrerRepository.findAll();
     }
-    
-    public Enregistrer save(Enregistrer chart) {
-        return repository.save(chart);
+
+
+    public Enregistrer saveEnregistrer(Enregistrer enregistrer) {
+    	System.out.println(enregistrer.getId());
+    	System.out.println(enregistrer.getPosition());
+
+        return enregistrerRepository.save(enregistrer);
+    }
+
+    public void deleteEnregistrer(UUID enregistrerId) {
+        enregistrerRepository.deleteById(enregistrerId);
     }
 }

@@ -1,28 +1,49 @@
 package com.example.application.data.endpoint;
 
-import java.util.List;
 
+import com.example.application.data.entity.Chart;
 import com.example.application.data.entity.Curve;
+import com.example.application.data.repository.ChartRepository;
 import com.example.application.data.repository.CurveRepository;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
-
 import dev.hilla.Endpoint;
-import dev.hilla.Nonnull;
 
-@Endpoint 
-@AnonymousAllowed 
+import java.util.List;
+import java.util.UUID;
+
+@Endpoint
+@AnonymousAllowed
 public class CurveEndPoint {
-    private CurveRepository repository;
+    private final CurveRepository curveRepository;
+    private final ChartRepository chartRepository;
 
-    public CurveEndPoint(CurveRepository repository) {
-        this.repository = repository;
+    public CurveEndPoint(CurveRepository curveRepository, ChartRepository chartRepository) {
+        this.curveRepository = curveRepository;
+        this.chartRepository = chartRepository;
     }
 
-    public @Nonnull List<@Nonnull Curve> findAll() {
-        return repository.findAll();
+    public List<Curve> getCurves() {
+        return curveRepository.findAll();
     }
-    
-    public Curve save(Curve curve) {
-        return repository.save(curve);
+
+    public List<Chart> getCharts() {
+        return chartRepository.findAll();
+    }
+
+
+    public Curve saveCurve(Curve curve) {
+    	System.out.println(curve.getId());
+    	System.out.println(curve.getChart());
+    	System.out.println(curve.getChart().getId());
+        curve.setChart(chartRepository.findById(curve.getChart().getId())
+                .orElseThrow(() -> new RuntimeException(
+                        "Could not find Chart with id" + curve.getChart().getId())));
+
+
+        return curveRepository.save(curve);
+    }
+
+    public void deleteCurve(UUID curveId) {
+        curveRepository.deleteById(curveId);
     }
 }

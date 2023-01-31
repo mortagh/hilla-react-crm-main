@@ -10,6 +10,7 @@ import {store} from "Frontend/app/store";
 import {Provider} from "react-redux";
 import {initFromServer} from "Frontend/features/contacts/contactsSlice";
 import ChartView from './features/chart/ChartView';
+import EnregistrerView from './features/chart/EnregistrerView';
 
 const container = document.getElementById('root');
 const root = createRoot(container!);
@@ -24,6 +25,7 @@ root.render(
           <Route path="/" element={<App/>}>
             <Route path="" element={<Contacts/>}/>
             <Route path="graphique" element={<ChartView/>}/>
+            <Route path="materiel" element={<EnregistrerView/>}/>
             <Route path="dashboard" element={<Dashboard/>}/>
           </Route>
         </Routes>

@@ -1,27 +1,20 @@
 package com.example.application.data.entity;
 
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Entity
 public class Enregistrer extends AbstractEntity {
 
-    @NotEmpty
+    @NotNull
     private String name = "";
 
-    @NotEmpty
+    @NotNull
     private String ip = "";
 
-    @NotEmpty
+    @NotNull
     private String type = "";
 
-    @ManyToOne
-    @JoinColumn(name = "channel_id")
-    @NotNull
-    private Channel channel;
 
     public String getName() {
         return name;
@@ -37,11 +30,5 @@ public class Enregistrer extends AbstractEntity {
         this.ip = ip;
     }
 
-    public Channel getChannel() {
-        return channel;
-    }
-    public void setChannel(Channel channel) {
-        this.channel = channel;
-    }
 
 }

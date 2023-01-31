@@ -16,6 +16,7 @@ function App() {
         <ul className="list-none">
           <li><NavLink to="/">Contacts</NavLink></li>
           <li><NavLink to="/graphique">Graphique</NavLink></li>
+          <li><NavLink to="/materiel">Matériel</NavLink></li>
           <li><NavLink to="/dashboard">Dashboard</NavLink></li>
         </ul>
       </nav>

@@ -1,7 +1,7 @@
 import Chart from "Frontend/generated/com/example/application/data/entity/Chart";
 import {RootState} from "Frontend/app/store";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { TestEndPoint } from "Frontend/generated/endpoints";
+import { ChartEndPoint } from "Frontend/generated/endpoints";
 
 export interface ChartsState {
   charts: Chart[],
@@ -19,20 +19,20 @@ export const initFromServer = createAsyncThunk(
   'charts/initFromServer',
   async () => {
     return Promise.all([
-      TestEndPoint.getCharts(),
+      ChartEndPoint.getCharts(),
     ]);
   }
 )
 
 export const saveChart = createAsyncThunk(
   'charts/save',
-  async (chart: Chart) => TestEndPoint.saveChart(chart)
+  async (chart: Chart) => ChartEndPoint.saveChart(chart)
 )
 
 export const deleteChart = createAsyncThunk(
   'charts/delete',
   async (chart: Chart) => {
-    await TestEndPoint.deleteChart(chart.id);
+    await ChartEndPoint.deleteChart(chart.id);
     return chart.id;
   }
 )

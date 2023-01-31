@@ -49,7 +49,7 @@ export default function CurveForm() {
     name: '',
     color: '',
     position: '',
-    chartId: '',
+    chartId: ,
   };
 
   const formik = useFormik({
@@ -92,7 +92,7 @@ export default function CurveForm() {
                  invalid={Boolean(formik.errors.position)}
                  errorMessage={formik.errors.position ? formik.errors.position : ''}/>
 
-      <ComboBox label="Graphique"
+      {/* <ComboBox label="Graphique"
                 name="chartId"
                 items={charts}
                 itemLabelPath="name"
@@ -100,7 +100,7 @@ export default function CurveForm() {
                 value={formik.values.chartId}
                 onChange={formik.handleChange}
                 invalid={Boolean(formik.errors.chartId)}
-                errorMessage={formik.errors.chartId ? formik.errors.chartId : ''}/>
+                errorMessage={formik.errors.chartId ? formik.errors.chartId : ''}/> */}
 
       <div className="flex gap-s">
         <Button theme="primary" onClick={e => formik.submitForm()}>Save</Button>

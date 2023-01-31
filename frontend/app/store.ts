@@ -1,6 +1,8 @@
 import {configureStore} from '@reduxjs/toolkit'
 import { chartsReducer } from 'Frontend/features/chart/chartsSlice';
 import { curvesReducer } from 'Frontend/features/chart/curvesSlice';
+import { enregistrersReducer } from 'Frontend/features/chart/enregistrersSlice';
+import { channelsReducer } from 'Frontend/features/chart/channelsSlice';
 import {contactsReducer} from "Frontend/features/contacts/contactsSlice";
 
 export const store = configureStore({
@@ -8,6 +10,8 @@ export const store = configureStore({
     contacts: contactsReducer,
     charts: chartsReducer,
     curves: curvesReducer,
+    enregistrers: enregistrersReducer,
+    channels: channelsReducer,
   },
 })
 
