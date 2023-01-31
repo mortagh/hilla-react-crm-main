@@ -56,7 +56,7 @@ const handleGridSelection = (e: GridElement.GridActiveItemChangedEvent<Chart>) =
   const addChart = () => dispatch(selectChart({} as Chart));
   const addCurve = () => dispatch(selectCurve({} as Curve));
 
-  const chartId = formik.errors.chartId;
+  const chartId = formik.values.chartId;
 
   return (
   <div className="flex flex-col h-full items-center justify-center p-l text-center">
