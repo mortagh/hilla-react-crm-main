@@ -66,7 +66,8 @@ export default function ChartView() {
 					name="chartId"
 					items={charts}
 					itemLabelPath="name"
-					selectedItem={selectedChartForCurveEdit}
+					itemValuePath="id"
+					value={selectedChartForCurveEdit?.id}
 					onChange={handleChartComboboxSelection}
 				/>
 				<div className="toolbar flex gap-s">
