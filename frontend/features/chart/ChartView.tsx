@@ -43,7 +43,6 @@ export default function ChartView() {
 		dispatch(selectChartForCurveEdit(e.target.selectedItem??null));
 	}
 
-<<<<<<< HEAD
 	return (
 		<div className="flex flex-col h-full items-center p-l text-center">
 			<h2>Gestion des graphiques</h2>
@@ -88,54 +87,3 @@ export default function ChartView() {
 		</div>
 	);
 }
-=======
-  const chartId = formik.values.chartId;
-
-  return (
-  <div className="flex flex-col h-full items-center justify-center p-l text-center">
-    <h2>Gestion des graphiques</h2>
-    <div className="box-border flex flex-col p-m gap-s w-full h-full">
-      <div className="toolbar flex gap-s">
-        <TextField placeholder="Filter by name" clearButtonVisible value={filter} onValueChanged={filterChanged} />
-        <Button onClick={addChart}>Ajouter un graphique</Button>
-      </div>
-      <div className="content flex gap-m h-full">
-        <Grid items={charts} onActiveItemChanged={handleGridSelection} selectedItems={[selectedChart]}>
-          <GridColumn path='name' header="Nom du graphique" />
-          <GridColumn path='position' header="Position" />
-        </Grid>
-        {selectedChart &&
-        <ChartForm />}
-      </div>
-    </div>
-
-    <h2>Gestion des courbes</h2>
-    <div className="box-border flex flex-col p-m gap-s w-full h-full">
-    <ComboBox label="Graphique"
-                name="chartId"
-                items={charts}
-                itemLabelPath="name"
-                itemValuePath="id"
-                value={formik.values.chartId}
-                onChange={formik.handleChange}
-                invalid={Boolean(formik.errors.chartId)}
-                errorMessage={formik.errors.chartId ? formik.errors.chartId : ''}/>
-      <div className="toolbar flex gap-s">
-        <TextField placeholder="Filter by name" clearButtonVisible value={filter} onValueChanged={filterChanged} />
-        <Button onClick={addCurve}>Ajouter une courbe</Button>
-      </div>
-      <div className="content flex gap-m h-full">
-        <Grid items={curves} onActiveItemChanged={handleGridSelection} selectedItems={[selectedCurve]}>
-          <GridColumn path='name' header="Nom de la courbe" />
-          <GridColumn path='position' header="Position" />
-          <GridColumn path='color' header="Color" />
-          <GridColumn path='chart.name' header="Graphique" />
-        </Grid>
-        {selectedCurve &&
-        <CurveForm chartId={chartId} />}
-      </div>
-    </div>
-  </div>
-  );
-  }
->>>>>>> refs/remotes/origin/master
