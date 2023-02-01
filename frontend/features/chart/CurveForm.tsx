@@ -1,4 +1,4 @@
-import {Button, ComboBox,  TextField} from "react-vaadin-components";
+import {Button, TextField} from "react-vaadin-components";
 import {useFormik} from "formik";
 import * as yup from 'yup';
 import {useSelector} from "react-redux";
@@ -8,18 +8,21 @@ import Curve from "Frontend/generated/com/example/application/data/entity/Curve"
 import { deleteCurve, saveCurve, selectCurve } from "./curvesSlice";
 import { getCharts} from './chartsSlice';
 
+
 export interface CurveFormModel {
   id: string,
   name: string,
   color: string,
   position: string,
-  chartId: string,
   
 }
+
+
 
 export default function CurveForm() {
   const charts = useSelector(getCharts);
   const selectedCurve = useSelector((state: RootState) => state.curves.selected);
+  const chart = useSelector((state: RootState) => state.charts.chartForCurveEdit)
   const dispatch = useAppDispatch();
 
   const curveToFormModel = (curve: Curve) => ({
@@ -27,7 +30,6 @@ export default function CurveForm() {
     name: curve.name,
     color: curve.color,
     position: curve.position,
-    chartId: curve.chart?.id
   });
 
   const formModelToCurve = (formModel: CurveFormModel) => ({
@@ -35,21 +37,20 @@ export default function CurveForm() {
     name: formModel.name,
     color: formModel.color,
     position: formModel.position,
-    chart: charts.find(c => c.id === formModel.chartId),
+    chart: charts.find(c => c.id === chart?.id),
   });
 
   const validationSchema = yup.object({
     name: yup.string().required('First name is required'),
     color: yup.string().required('Last name is required'),
     position: yup.string().required('Enter a valid position'),
-    chartId: yup.string().required('Select a chart')
+   /* chartId: yup.string().required('Select a chart')*/
   });
 
   const formValues = selectedCurve ? curveToFormModel(selectedCurve) : {
     name: '',
     color: '',
     position: '',
-    chartId: ,
   };
 
   const formik = useFormik({
@@ -57,7 +58,7 @@ export default function CurveForm() {
     validationSchema,
     enableReinitialize: true,
     onSubmit: (values) => {
-		console.log(formModelToCurve(values as CurveFormModel).chart?.id)
+		console.log("save : " +formModelToCurve(values as CurveFormModel))
       dispatch(saveCurve(formModelToCurve(values as CurveFormModel)))
     }
   });
